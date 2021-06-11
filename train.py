@@ -10,18 +10,6 @@ import pandas as pd
 from azureml.core.run import Run
 from azureml.data.dataset_factory import TabularDatasetFactory
 
-# Bank Marketing Dataset - https://archive.ics.uci.edu/ml/datasets/Bank+Marketing (Moro et. al., 2014)
-# Predict whether a customer would accept an offer from a bank to open a deposit
-csv_path = "https://automlsamplenotebookdata.blob.core.windows.net/automl-sample-notebook-data/bankmarketing_train.csv"
-
-ds = TabularDatasetFactory.from_delimited_file(path=csv_path)
-
-x, y = clean_data(ds)
-
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.1)
-
-run = Run.get_context()
-
 
 def clean_data(data):
     # Encode the months and the weekdays from string to numeric values for learning
@@ -49,6 +37,21 @@ def clean_data(data):
     x_df["poutcome"] = x_df.poutcome.apply(lambda s: 1 if s == "success" else 0)
 
     y_df = x_df.pop("y").apply(lambda s: 1 if s == "yes" else 0)
+
+    return x_df, y_df
+
+
+# Bank Marketing Dataset - https://archive.ics.uci.edu/ml/datasets/Bank+Marketing (Moro et. al., 2014)
+# Predict whether a customer would accept an offer from a bank to open a deposit
+csv_path = "https://automlsamplenotebookdata.blob.core.windows.net/automl-sample-notebook-data/bankmarketing_train.csv"
+
+ds = TabularDatasetFactory.from_delimited_file(path=csv_path)
+
+x, y = clean_data(ds)
+
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.1)
+
+run = Run.get_context()
 
 
 def main():
