@@ -22,7 +22,7 @@ This model is then compared to an Azure AutoML run.
   * Preprocessors: MaxAbsScaler, SparseNormalizer, StandardScalerWrapper, etc.
   * Estimators: Usually gradient-boosted tree-based classifiers (XGBoost, LightGBM, Random Forests), but also Logistic Regression. 
 
-<script src="https://gist.github.com/radandreicristian/c42bda8e0b60320162ac7bda38edd399.js"></script>
+<script src="https://gist.github.com/radandreicristian/c42bda8e0b60320162ac7bda38edd399.js"> </script>
 
 ## Pipeline comparison
 🧪 The test accuracies reported by the two pipelines are:
