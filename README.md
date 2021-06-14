@@ -21,8 +21,7 @@ This model is then compared to an Azure AutoML run.
 ⚗️ The pipelines used in the AutoML experiments included two steps, usually a preprocessor and an estimator.
   * Preprocessors: MaxAbsScaler, SparseNormalizer, StandardScalerWrapper, etc.
   * Estimators: Usually gradient-boosted tree-based classifiers (XGBoost, LightGBM, Random Forests), but also Logistic Regression. 
-
-<script src="https://gist.github.com/radandreicristian/c42bda8e0b60320162ac7bda38edd399.js"> </script>
+More details about the parameters for the AutoML run can be found [here](https://gist.github.com/radandreicristian/c42bda8e0b60320162ac7bda38edd399), and the according documentation can be foudn [here](https://docs.microsoft.com/en-us/python/api/azureml-train-automl-client/azureml.train.automl.automlconfig.automlconfig).
 
 ## Pipeline comparison
 🧪 The test accuracies reported by the two pipelines are:
