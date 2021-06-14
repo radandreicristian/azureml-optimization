@@ -31,4 +31,4 @@ This model is then compared to an Azure AutoML run.
 🌳 Tree-based models are known to be state-of-the-art for many datasets, and this one was no exception. These models are more advanced and complex, and are able to capture better dependencies and relationships between variables.
 
 ## Future work
-📈 As the model part of the task has been optimized, it is likely that in order to further improve the performance, the data has to undergo better preprocessing techniques.
+📈 As the model part of the task has been optimized (selected best model, performed cross-validation), it is likely that in order to further improve the performance the data needs to be improved. This can be done either by adding more data, feature engineering, selection. Adding more data could help the model generalize more and avoid overfitting, which generally increases performance, while feature engineering and selection could provide better variables for classification.
