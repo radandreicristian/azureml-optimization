@@ -22,8 +22,8 @@ More details about the parameters for the AutoML run can be found [here](https:/
 
 ## Pipeline comparison
 🧪 The test accuracies reported by the two pipelines are:
-  * 0.9094 for Logistic Regression after hyperparameter tuning.
-  * 0.9174 for the Voting Ensemble classifier selected by AutoML.
+  * **0.9094** for Logistic Regression after hyperparameter tuning.
+  * **0.9174** for the Voting Ensemble classifier selected by AutoML.
 
 🌳 Tree-based models are known to be state-of-the-art for many datasets, and this one was no exception. These models are more advanced and complex, and are able to capture better dependencies and relationships between variables.
 
