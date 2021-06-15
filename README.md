@@ -17,13 +17,13 @@
 ## AutoML
 ⚗️ The pipelines used in the AutoML experiments included two steps, usually a preprocessor and an estimator.
   * Preprocessors: MaxAbsScaler, SparseNormalizer, StandardScalerWrapper, etc.
-  * Estimators: Usually gradient-boosted tree-based classifiers (XGBoost, LightGBM, Random Forests), but also Logistic Regression. 
+  * Estimators: Usually gradient-boosted tree-based classifiers (XGBoost, LightGBM, Random Forests), ensemble methods, but also Logistic Regression. 
 More details about the parameters for the AutoML run can be found [here](https://gist.github.com/radandreicristian/c42bda8e0b60320162ac7bda38edd399), and the according documentation can be foudn [here](https://docs.microsoft.com/en-us/python/api/azureml-train-automl-client/azureml.train.automl.automlconfig.automlconfig).
 
 ## Pipeline comparison
 🧪 The test accuracies reported by the two pipelines are:
-  * 0.9089 for Logistic Regression after hyperparameter tuning.
-  * 0.9160 for the Voting Ensemble classifier selected by AutoML.
+  * 0.9094 for Logistic Regression after hyperparameter tuning.
+  * 0.9174 for the Voting Ensemble classifier selected by AutoML.
 
 🌳 Tree-based models are known to be state-of-the-art for many datasets, and this one was no exception. These models are more advanced and complex, and are able to capture better dependencies and relationships between variables.
 
