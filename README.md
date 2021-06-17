@@ -1,4 +1,4 @@
-# Optimizing an ML Pipeline in Azure
+# Optimizing an ML Pipeline in Azure - Part of the Udacity Azure ML Nanodegree 🧠
 
 ## Summary
 💸 The dataset used is related to bank marketing. It contains data about respondents to marketing phone calls, and whether or not they accepted an offer for a deposit.
