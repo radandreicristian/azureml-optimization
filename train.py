@@ -8,11 +8,12 @@ from azureml.data.dataset_factory import TabularDatasetFactory
 from azureml.data import TabularDataset
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import roc_auc_score
 
 
 def clean_data(data: TabularDataset) -> pd.DataFrame:
     """
-    Preprocessing of tabular data. Includes encoding and missing value removal
+    Preprocessing of tabular data. Includes encoding and missing value removal. For reasoning of the preprocessing, check the bank_management_eda notebook.
     :param data: Data in the format of a Azure TabularDataset
     :return: Preprocessed data in the format of a Pandas DataFrame
     """
@@ -20,34 +21,40 @@ def clean_data(data: TabularDataset) -> pd.DataFrame:
     # Convert the data to a pandas dataframe and remove missing values
     df = data.to_pandas_dataframe().dropna()
 
-    # Label encode the job, contract and eduction variables
-    jobs = pd.get_dummies(df.job, prefix="job")
-    df.drop("job", inplace=True, axis=1)
-    df = df.join(jobs)
+    df.loc[:, 'age_group'] = '<30'
+    df.loc[(df['age'] >= 30) & (df['age'] <= 60), 'age_group'] = '30-60'
+    df.loc[(df['age'] > 60), 'age_group'] = '>60'
 
-    contact = pd.get_dummies(df.contact, prefix="contact")
-    df.drop("contact", inplace=True, axis=1)
-    df = df.join(contact)
+    df.loc[:, 'previous_group'] = '0-1'
+    df.loc[(df['previous'] == 2), 'previous_group'] = '2-3-4'
+    df.loc[(df['previous'] == 3), 'previous_group'] = '2-3-4'
+    df.loc[(df['previous'] == 4), 'previous_group'] = '2-3-4'
+    df.loc[(df['previous'] == 5), 'previous_group'] = '5-6'
+    df.loc[(df['previous'] == 6), 'previous_group'] = '5-6'
+    df.loc[(df['previous'] == 7), 'previous_group'] = '7'
 
-    education = pd.get_dummies(df.education, prefix="education")
-    df.drop("education", inplace=True, axis=1)
-    df = df.join(education)
+    used_variables = ['age_group', 'previous_group','job', 'marital', 'education', 'default', 'housing', 'loan', 'contact', 'month',
+                      'poutcome', 'day_of_week', 'y']
+    df = df[used_variables]
 
-    # Binary encode the marital/default/housing/loan/poutcome variables
-    df["marital"] = df.marital.apply(lambda s: 1 if s == "married" else 0)
-    df["default"] = df.default.apply(lambda s: 1 if s == "yes" else 0)
-    df["housing"] = df.housing.apply(lambda s: 1 if s == "yes" else 0)
-    df["loan"] = df.loan.apply(lambda s: 1 if s == "yes" else 0)
-    df["poutcome"] = df.poutcome.apply(lambda s: 1 if s == "success" else 0)
-    df["y"] = df.y.apply(lambda s: 1 if s == "yes" else 0)
+    unknown_variables = ['marital', 'default', 'housing', 'loan']
+
+    # Remove data with 'unknown' in it
+    for variable in unknown_variables:
+        df.drop(df[df[variable] == 'unknown'].index, inplace=True)
+
+    # Binary encode binary variables
+    binary_variables = ['default', 'housing', 'loan', 'y']
+    dictionary = {'no': 0, 'yes': 1}
+
+    for variable in binary_variables:
+        df[variable] = df[variable].apply(lambda x: dictionary[x])
+
+    categorical_variables = ['age_group', 'previous_group','job', 'marital', 'education', 'contact', 'month', 'poutcome', 'day_of_week']
+
+    df = pd.get_dummies(df, columns=categorical_variables, drop_first=False)
 
     # Label encode the months and days of week variables
-    months = {"jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6, "jul": 7, "aug": 8, "sep": 9, "oct": 10,
-              "nov": 11, "dec": 12}
-    weekdays = {"mon": 1, "tue": 2, "wed": 3, "thu": 4, "fri": 5, "sat": 6, "sun": 7}
-
-    df["month"] = df.month.map(months)
-    df["day_of_week"] = df.day_of_week.map(weekdays)
     return df
 
 
@@ -72,7 +79,7 @@ def main():
     dataframe = clean_data(ds)
     x, y = split_variables(dataframe)
 
-    x_train, x_val, y_train, y_val = train_test_split(x, y, test_size=0.1)
+    x_train, x_val, y_train, y_val = train_test_split(x, y, test_size=0.1, stratify=y)
 
     run = Run.get_context()
 
@@ -90,8 +97,11 @@ def main():
 
     model = LogisticRegression(C=args.C, max_iter=args.max_iter).fit(x_train, y_train)
 
-    accuracy = model.score(x_val, y_val)
-    run.log("accuracy", np.float(accuracy))
+    y_pred = model.predict(x_val)
+
+    auc_weighted = roc_auc_score(y_pred, y_val, average='weighted')
+
+    run.log("auc_weighted", np.float(auc_weighted))
 
 
 if __name__ == '__main__':
