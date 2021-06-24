@@ -22,11 +22,11 @@ Part of the Udacity Azure ML Nanodegree 🧠
 More details about the parameters for the AutoML run can be found [here](https://gist.github.com/radandreicristian/c42bda8e0b60320162ac7bda38edd399), and the according documentation can be foudn [here](https://docs.microsoft.com/en-us/python/api/azureml-train-automl-client/azureml.train.automl.automlconfig.automlconfig).
 
 ## Pipeline comparison
-🧪 The test accuracies reported by the two pipelines are:
+🧪 Since the dataset is imbalanced, an appropriate metric for validating model performance is the Weighted ROC AUC, not the accuracy. The values for the two best performing models on the test set were the following:
   * **0.770** for Logistic Regression after hyperparameter tuning.
   * **0.787** for the XGBoost classifier selected by AutoML.
 
 🌳 Tree-based models are known to be state-of-the-art for many datasets, and this one was no exception. These models are more advanced and complex, and are able to capture better dependencies and relationships between variables.
 
 ## Future work
-📈 As the model part of the task has been optimized (selected best model, performed cross-validation), it is likely that in order to further improve the performance the data needs to be improved. This can be done either by adding more data and (better) feature engineering. Adding more data could help the model generalize more and avoid overfitting, which generally increases performance, while feature engineering and selection could provide better variables for classification. Ideally, the datasets should be balanced to avoid class underrepresenation.
+📈 As the model part of the task has been optimized (selected best model, performed cross-validation), it is likely that, in order to further improve the performance, the data needs improvemets. Some feature engineering has already been done on the data (as can be seen in the eda.ipynb notebook). Futhermore, better data can be accomplished by adding more data to balance the classes or doing better feature engineering. Adding more data could help the model generalize more and avoid overfitting and class imbalance, which generally increases performance, while feature engineering and selection could provide better variables for classification.
