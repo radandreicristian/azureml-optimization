@@ -1,5 +1,5 @@
 # Optimizing an ML Pipeline in Azure
-Part of the Udacity Azure ML Nanodegree 🧠
+Part of the Udacity Azure ML Nanodegree 🧠 Most notebooks / scripts are not written from scratch, but provided as-is and modified to a certain extent.
 
 ## Summary
 💸 The dataset used is related to bank marketing. It contains data about respondents to marketing phone calls, and whether or not they accepted an offer for a deposit. The training data was explored, analyzed and feature engineered prior to the training.
